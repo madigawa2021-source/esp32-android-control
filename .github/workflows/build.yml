@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Flutter and Build APK
         run: |
-          # We are building directly from the top folder now
-          flet build apk
+          # The 'yes' command automatically answers "y" to the Flutter SDK prompt
+          yes | flet build apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
