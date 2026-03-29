@@ -16,9 +16,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Debug - List Files
-        run: ls -R  # This helps us see where everything is!
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -26,15 +23,15 @@ jobs:
 
       - name: Install Flutter and Build APK
         run: |
-          # 1. Automatically accept Android licenses
+          # 1. Accept Android licenses
           yes | flutter doctor --android-licenses || true
           
-          # 2. Build the APK using the explicit filename
-          # We use 'printf' which is more stable than 'yes' for this CLI
-          printf "y\nn\n" | flet build apk --module-name main.py
+          # 2. Go into the folder and build
+          cd android_app
+          printf "y\nn\n" | flet build apk
           
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/apk/*.apk
+          path: android_app/build/apk/*.apk
